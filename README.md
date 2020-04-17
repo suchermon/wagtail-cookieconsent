@@ -73,6 +73,12 @@ Will insert `wagtailcookieconsent/consent_banner.html`. Of course, you can overr
 
 This tag will returns `accepted | declined | None` so you can conditionally include tracking scripts where it needed.
 
+### Tests
+
+After installation in your local environment:
+
+`python manage.py test wagtailcookieconsent --keepdb`
+
 ### Contribution
 
 Fork and do whatever you want. I don't have a strong opinion just as long as you don't break it.
