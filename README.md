@@ -39,7 +39,9 @@ INSTALLED_APPS = [
 4. Add the template tags in the homepage or `base.html` template so it'll be included the same stuff throughout the site. (see [`example/base.html`](https://github.com/suchermon/wagtail-cookieconsent/blob/master/wagtailcookieconsent/example/base.html))
 
     ```
-    {% load cookie_consent_tags %}
+    {% load wagtailsettings_tags cookie_consent_tags %}
+
+    {% get_settings %}
     
     {% if wagtail_cookie_consent_status == 'accepted' %}
     ... # loads tracking JS codes
