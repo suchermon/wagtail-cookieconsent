@@ -63,11 +63,11 @@ INSTALLED_APPS = [
 
 ### Template Tags
 
-`{% cookie_consent_banner %}`
+`{% wagtail_cookie_consent_banner %}`
 
 Will insert `wagtailcookieconsent/consent_banner.html`. Of course, you can override this template anyway you like just as long as you keep the forms.
 
-`{% check_cookie_consent_status %}`
+`{% wagtail_cookie_consent_status %}`
 
 This tag will returns `accepted | declined | None` so you can conditionally include tracking scripts where it needed.
 
