@@ -1,6 +1,6 @@
 from django.views.generic import RedirectView
 
-from wagtailcookieconsent.forms import WagtailCookieConsentForm
+from .forms import WagtailCookieConsentForm
 
 
 class CookieMixin(object):

@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
 1. Install [Remove Cookie For Site](https://chrome.google.com/webstore/detail/removecookiesforsite/lmfdblomdpkcniknaenceeogpgepocmm?hl=en) Chrome Extension to quickly test whether it's working or not.
 
-2. You can view the set cookies in `Dev Tools -> Application -> (Left Panel) Storage -> Cookies`
+2. For Chrome: you can view the set cookies in `Dev Tools -> Application -> (Left Panel) Storage -> Cookies`
 
 ### Template Tags
 

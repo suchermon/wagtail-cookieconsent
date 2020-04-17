@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic.base import TemplateView
 
-from wagtailalacarte.cookieconsent.views import WagtailCookieConsentSubmitView
+from .views import WagtailCookieConsentSubmitView
 
 
 app_name = 'wagtailcookieconsent'
