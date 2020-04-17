@@ -36,11 +36,20 @@ INSTALLED_APPS = [
 
 3. Run `python manage.py migrate`
 
-4. Add template tags in the homepage or `base.html` template so it'll be included the same stuff throughout the site. (see `example/base.html`)
+4. Add the template tags in the homepage or `base.html` template so it'll be included the same stuff throughout the site. (see `example/base.html`)
+
+    ```
+    {% if wagtail_cookie_consent_status == 'accepted' %}
+    ... # loads tracking JS codes
+    {% endif %}
+
+    # Somewhere below the main content
+    {% wagtail_cookie_consent_banner %}
+    ```
 
 5. Include `{% static 'cookieconsent.min.css' %}` or write your own css. I have included SASS in `wagtailcookieconsent/assets/scss` if you prefer that.
 
-6. Load initial data `python manage.py loaddata cookieconsent` or go to your `wagtail admin > Settings > Cookie Consent `to configure your cookie name, text and description
+6. Load some initial data `python manage.py loaddata wagtailcookieconsent` or go to your `wagtail admin > Settings > Cookie Consent `to configure your cookie name, text and description
 
 7. Run it `python manage.py runserver` and see what it in actions.
 
