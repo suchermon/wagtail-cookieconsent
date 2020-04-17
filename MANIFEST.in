@@ -3,5 +3,6 @@ include README.md
 
 include wagtailcookieconsent/assets/*
 include wagtailcookieconsent/fixtures/*
-include wagtailcookieconsent/templates/*
 include wagtailcookieconsent/static/*
+include wagtailcookieconsent/templates/wagtailcookieconsent/*
+include wagtailcookieconsent/templates/wagtailcookieconsent/forms/*
