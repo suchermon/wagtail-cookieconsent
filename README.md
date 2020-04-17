@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 
 6. Load some initial data `python manage.py loaddata wagtailcookieconsent` or go to your `wagtail admin > Settings > Cookie Consent `to configure your cookie name, text and description
 
-7. Run it `python manage.py runserver` and see what it in actions.
+7. Run it `python manage.py runserver` and see it in actions.
 
 **TIPS**
 
