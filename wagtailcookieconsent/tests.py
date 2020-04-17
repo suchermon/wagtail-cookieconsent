@@ -24,6 +24,7 @@ class WagtailCookieConsentBannerTests(TestCase):
         return Template(template).render(context)
 
     def test_wagtail_cookie_consent_banner_with_no_cookie_set_should_show_banner(self, mock_model):
+        # self.request.COOKIES['cookie_monster'] = 'declined'
         mock_model.objects.all.return_value.first.return_value.name = 'Cookie Monster'
 
         rendered_template = self.render_template(
@@ -37,7 +38,7 @@ class WagtailCookieConsentBannerTests(TestCase):
         self.assertTemplateUsed(template_name=self.banner_template)
         self.assertEqual(rendered_template, assert_template)
 
-    def test_wagtail_cookie_consent_banner_should_not_insert_html_after_cookie_is_set(self, mock_model):
+    def test_wagtail_cookie_consent_banner_should_not_insert_html_after_accepted(self, mock_model):
         self.request.COOKIES['me_have_cookie'] = 'accepted'
         mock_model.objects.all.return_value.first.return_value.name = 'Me Have Cookie'
 
@@ -51,7 +52,7 @@ class WagtailCookieConsentBannerTests(TestCase):
         assert_template = render_to_string(self.banner_template, cxt).strip()
 
         self.assertTemplateUsed(template_name=self.banner_template)
-        self.assertEqual(rendered_template.strip(), assert_template)
+        self.assertEqual(rendered_template.strip(), render_to_string(self.banner_template, cxt).strip())
 
 
 @mock.patch('wagtailcookieconsent.templatetags.cookie_consent_tags.WagtailCookieConsent')
