@@ -53,14 +53,12 @@ class WagtailCookieConsentSubmitView(CookieMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         cookie_name = request.POST.get('cookie_name', None)
         cookie_action = request.POST.get('cookie_action', None)
-        print(cookie_name, cookie_action)
         if cookie_name and cookie_action:
             self.add_cookie(cookie_name, cookie_action, max_age=3600)
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, *args, **kwargs):
         next_url = self.request.POST.get('next_url', None)
-        print('next: ', next_url)
 
         if next_url:
             return '%s' % (next_url)
