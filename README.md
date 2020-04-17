@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-2. Add `re_path(r'^cookies/', include('wagtail_cookieconsent.urls')),` to your `urls.py`
+2. Add `re_path(r'^cookies/', include('wagtailcookieconsent.urls')),` to your `urls.py`
 
 3. Run `python manage.py migrate`
 
