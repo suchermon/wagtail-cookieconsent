@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<form action="{% url 'wagtailcookieconsent:consent' %}" method="POST">
+  {% csrf_token %}
+  <input type="hidden" value="{{ cookie_name }}" name="cookie_name">
+  <input type="hidden" value="accepted" name="cookie_action">
+  <input type="hidden" value="{{ request.get_full_path }}" name="next_url">
+  <button type="submit" class="btn-accept btn btn-secondary btn-xl btn-wide mr-3">{% trans 'Accept' %}</button>
+</form>
+
+<form action="{% url 'wagtailcookieconsent:consent' %}" method="POST">
+  {% csrf_token %}
+  <input type="hidden" value="{{ cookie_name }}" name="cookie_name">
+  <input type="hidden" value="declined" name="cookie_action">
+  <input type="hidden" value="{{ request.get_full_path }}" name="next_url">
+  <button type="submit" class="btn-decline btn btn-link">{% trans 'No, thanks' %}</button>
+</form>

@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+
+recursive-include wagtailcookieconsent/templates/*
+recursive-include wagtailcookieconsent/static/*
+recursive-include wagtailcookieconsent/fixtures/*

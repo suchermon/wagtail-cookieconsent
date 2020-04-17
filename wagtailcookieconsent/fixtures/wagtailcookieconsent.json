@@ -1,0 +1,12 @@
+[
+{
+  "model": "wagtailcookieconsent.WagtailCookieConsent",
+  "pk": 1,
+  "fields": {
+    "site": 1,
+    "name": "Analytics",
+    "banner_text": "<h3>We use cookies to enhance your experience!</h3>",
+    "description": "<h2><b>What do we track?</b></h2><p>We use Google Analytics and Google Tag Manager to track the number of our visitors, the pages that they visit, as well as the links that they clicked to help us better understand our audiences and what we need to improve.</p><p>Should you choose to accept or decline the trackings, this cookie is set to expire in 30 days.</p>"
+  }
+}
+]

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n wagtailsettings_tags wagtailcore_tags %}
+{% get_settings %}
+
+
+{% block title %}{% trans "What do we track?" %}{% endblock %}
+
+{% block body_class %}cookieconsent{% endblock %}
+
+{% block content %}
+  {% with settings.cookieconsent.CookieConsent as consent %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        {{ consent.description|richtext }}
+
+        <p>
+          <a href="/">{% trans "Back to homepage" %}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endwith %}
+{% endblock %}

@@ -1,0 +1,8 @@
+.idea
+*.pyc
+/dist
+*.egg-info
+/.coverage
+/htmlcov/
+.DS_Store
+.sass-cached/
