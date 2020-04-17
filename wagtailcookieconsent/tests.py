@@ -24,7 +24,6 @@ class WagtailCookieConsentBannerTests(TestCase):
         return Template(template).render(context)
 
     def test_wagtail_cookie_consent_banner_with_no_cookie_set_should_show_banner(self, mock_model):
-        # self.request.COOKIES['cookie_monster'] = 'declined'
         mock_model.objects.all.return_value.first.return_value.name = 'Cookie Monster'
 
         rendered_template = self.render_template(
