@@ -1,7 +1,7 @@
 include LICENSE
 include README.md
 
-recursive-include wagtailcookieconsent/assets/*
-recursive-include wagtailcookieconsent/static/*
-recursive-include wagtailcookieconsent/fixtures/*
-recursive-include wagtailcookieconsent/templates/*
+include wagtailcookieconsent/assets/*
+include wagtailcookieconsent/fixtures/*
+include wagtailcookieconsent/templates/*
+include wagtailcookieconsent/static/*
