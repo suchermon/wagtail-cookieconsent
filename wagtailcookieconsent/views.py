@@ -5,7 +5,8 @@ from .forms import WagtailCookieConsentForm
 
 class CookieMixin(object):
     """
-    https://gist.github.com/bmispelon/7700152
+    Credit: https://gist.github.com/bmispelon/7700152
+    
     A CBV mixin that adds an `add_cookie` method on the view, allowing the user
     to set cookies on the response without having direct access to the response
     object itself.
