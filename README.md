@@ -36,9 +36,11 @@ INSTALLED_APPS = [
 
 3. Run `python manage.py migrate`
 
-4. Add the template tags in the homepage or `base.html` template so it'll be included the same stuff throughout the site. (see `example/base.html`)
+4. Add the template tags in the homepage or `base.html` template so it'll be included the same stuff throughout the site. (see [`example/base.html`](https://github.com/suchermon/wagtail-cookieconsent/blob/master/wagtailcookieconsent/example/base.html))
 
     ```
+    {% load cookie_consent_tags %}
+    
     {% if wagtail_cookie_consent_status == 'accepted' %}
     ... # loads tracking JS codes
     {% endif %}
@@ -51,7 +53,7 @@ INSTALLED_APPS = [
 
 6. Load some initial data `python manage.py loaddata wagtailcookieconsent` or go to your `wagtail admin > Settings > Cookie Consent `to configure your cookie name, text and description
 
-7. Run it `python manage.py runserver` and see what it in actions.
+7. Run it `python manage.py runserver` and see it in actions.
 
 **TIPS**
 
@@ -61,11 +63,11 @@ INSTALLED_APPS = [
 
 ### Template Tags
 
-`{% cookie_consent_banner %}`
+`{% wagtail_cookie_consent_banner %}`
 
 Will insert `wagtailcookieconsent/consent_banner.html`. Of course, you can override this template anyway you like just as long as you keep the forms.
 
-`{% check_cookie_consent_status %}`
+`{% wagtail_cookie_consent_status %}`
 
 This tag will returns `accepted | declined | None` so you can conditionally include tracking scripts where it needed.
 
