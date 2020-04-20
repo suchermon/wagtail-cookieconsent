@@ -15,7 +15,7 @@ A very simple Cookie Consent to prompt a visitor to either accept or decline tra
 
 OR `pipenv`
 
-`pipenv install git+https://github.com/suchermon/wagtail-cookieconsent.git@master#egg=wagtail-cookieconsent`
+`pipenv install -e git+https://github.com/suchermon/wagtail-cookieconsent.git@master#egg=wagtail-cookieconsent`
 
 
 Uninstall: `pip uninstall wagtail-cookieconsent` or `pipenv uninstall wagtail-cookieconsent`
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 4. Add the template tags in the homepage or `base.html` template so it'll be included the same stuff throughout the site. (see [`example/base.html`](https://github.com/suchermon/wagtail-cookieconsent/blob/master/wagtailcookieconsent/example/base.html))
 
     ```
-    {% load wagtailsettings_tags cookie_consent_tags %}
+    {% load wagtailsettings_tags wagtail_cookie_consent_tags %}
 
     {% get_settings %}
     
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     {% wagtail_cookie_consent_banner %}
     ```
 
-5. Include `{% static 'cookieconsent.min.css' %}` or write your own css. I have included SASS in `wagtailcookieconsent/assets/scss` if you prefer that.
+5. Include `{% static 'wagtailcookieconsent.min.css' %}` or write your own css. I have included SASS in `wagtailcookieconsent/assets/scss` if you prefer that.
 
 6. Load some initial data `python manage.py loaddata wagtailcookieconsent` or go to your `wagtail admin > Settings > Cookie Consent `to configure your cookie name, text and description
 

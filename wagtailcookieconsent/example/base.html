@@ -1,5 +1,5 @@
 {% load i18n %}
-{% load wagtailsettings_tags cookie_consent_tags %}
+{% load wagtailsettings_tags wagtail_cookie_consent_tags %}
 
 {% get_settings %}
 
@@ -24,7 +24,7 @@
 
     {% block styles %}
       <link rel="stylesheet" href="{% static 'app.css' %}" media="all" />
-      <link rel="stylesheet" href="{% static 'cookieconsent.min.css' %}" media="all" />
+      <link rel="stylesheet" href="{% static 'wagtailcookieconsent.css' %}" media="all" />
     {% endblock %}
 
     {% block extra_styles %}

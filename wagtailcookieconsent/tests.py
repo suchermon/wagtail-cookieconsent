@@ -5,7 +5,7 @@ from django.template import Context, Template
 from django.template.loader import render_to_string
 
 
-from .templatetags.cookie_consent_tags import wagtail_cookie_consent_status, underscore_me
+from .templatetags.wagtail_cookie_consent_tags import wagtail_cookie_consent_status, underscore_me
 
 
 @mock.patch('wagtailcookieconsent.templatetags.cookie_consent_tags.WagtailCookieConsent')
