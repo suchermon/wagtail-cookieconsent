@@ -1,7 +1,7 @@
 {% load i18n wagtailcore_tags static %}
 
-{% if not consent_exists %}
-  {% with settings.wagtailcookieconsent.WagtailCookieConsent as consent %}
+{% with settings.wagtailcookieconsent.WagtailCookieConsent as consent %}
+  {% if not consent_exists and consent.name %}
 
     {% block consent_content %}
 
@@ -26,5 +26,5 @@
 
     {% endblock consent_content %}
 
-  {% endwith %}
-{% endif %}
+  {% endif %}
+{% endwith %}

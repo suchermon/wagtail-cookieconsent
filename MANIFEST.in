@@ -6,3 +6,6 @@ include wagtailcookieconsent/fixtures/*
 include wagtailcookieconsent/static/*
 include wagtailcookieconsent/templates/wagtailcookieconsent/*
 include wagtailcookieconsent/templates/wagtailcookieconsent/forms/*
+
+recursive-include wagtailcookieconsent/static/*
+recursive-include wagtailcookieconsent/templates/*
