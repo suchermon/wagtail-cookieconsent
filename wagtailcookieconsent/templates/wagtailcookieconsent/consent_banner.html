@@ -1,30 +1,32 @@
 {% load i18n wagtailcore_tags static %}
 
-{% with settings.wagtailcookieconsent.WagtailCookieConsent as consent %}
-  {% if not consent_exists and consent.name %}
+{% if not consent_exists  %}
+  {% with settings.wagtailcookieconsent.WagtailCookieConsent as consent %}
 
-    {% block consent_content %}
+    {% if consent %}
 
-      <div id="cookieConsentBanner" class="cookie-consent-banner" tabindex="-1" role="dialog" aria-hidden="true" aria-label="{% trans 'Cookie Consent Prompt' %}">
-        <div class="cookie-consent-content" role="document">
+      {% block consent_content %}
+        <div id="cookieConsentBanner" class="cookie-consent-banner" tabindex="-1" role="dialog" aria-hidden="true" aria-label="{% trans 'Cookie Consent Prompt' %}">
+          <div class="cookie-consent-content" role="document">
 
-          <div class="cookie-consent-text">
-            {{ consent.banner_text|richtext }}
-            <small>
-              <a href="{% url 'wagtailcookieconsent:info' %}">{% trans "Click here to learn more about what we track" %}</a>
-            </small>
+            <div class="cookie-consent-text">
+              {{ consent.banner_text|richtext }}
+              <small>
+                <a href="{% url 'wagtailcookieconsent:info' %}">{% trans "Click here to learn more about what we track" %}</a>
+              </small>
+            </div>
+
+            <div class="cookie-consent-buttons">
+              {% block consent_buttons %}
+                {% include "wagtailcookieconsent/forms/cookie_submit_forms.html" %}
+              {% endblock consent_buttons %}
+            </div>
+
           </div>
-
-          <div class="cookie-consent-buttons">
-            {% block consent_buttons %}
-              {% include "wagtailcookieconsent/forms/cookie_submit_forms.html" %}
-            {% endblock consent_buttons %}
-          </div>
-
         </div>
-      </div>
+      {% endblock consent_content %}
 
-    {% endblock consent_content %}
+    {% endif %}
 
-  {% endif %}
-{% endwith %}
+  {% endwith %}
+{% endif %}
