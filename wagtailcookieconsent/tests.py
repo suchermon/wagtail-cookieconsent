@@ -6,11 +6,38 @@ from django.template.loader import render_to_string
 
 
 from .templatetags.wagtail_cookie_consent_tags import wagtail_cookie_consent_status, underscore_me
+from .views import WagtailCookieConsentSubmitView
 
 
-@mock.patch('wagtailcookieconsent.templatetags.cookie_consent_tags.WagtailCookieConsent')
+class WagtailCookieMixinTests(TestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.posted_data = {
+            'cookie_name': 'cookie_monster',
+            'cookie_action': 'nonomnom',
+            'next_url': '/'
+        }
+
+        self.factory = RequestFactory()
+        self.request = self.factory.post('/cookies/consent/', self.posted_data, follow=True)
+        self.view = WagtailCookieConsentSubmitView()
+        self.view.setup(self.request)
+        self.view.dispatch(self.request)
+
+    def test_form_post_method_get_cookies_should_return_posted_cookie_info(self):
+        self.assertEqual(self.view.get_cookies(), [(('cookie_monster', 'nonomnom'), {'max_age': 3600})])
+
+    def test_redirect_should_redirect_to_next_url(self):
+        resp = self.client.post('/cookies/consent/', self.posted_data, follow=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertRedirects(resp, '/')
+
+
+@mock.patch('wagtailcookieconsent.templatetags.wagtail_cookie_consent_tags.WagtailCookieConsent')
 class WagtailCookieConsentBannerTests(TestCase):
     def setUp(self):
+        super().setUp()
         self.factory = RequestFactory()
         self.request = self.factory.get('/')
         self.context = {}
@@ -20,11 +47,10 @@ class WagtailCookieConsentBannerTests(TestCase):
     def render_template(self, template, context=None):
         context = context or {}
         context = Context(context)
-        template = '{% load cookie_consent_tags wagtailsettings_tags %} {% get_settings use_default_site=True %}' + template
+        template = '{% load wagtail_cookie_consent_tags wagtailsettings_tags %} {% get_settings use_default_site=True %}' + template
         return Template(template).render(context)
 
     def test_wagtail_cookie_consent_banner_with_no_cookie_set_should_show_banner(self, mock_model):
-        # self.request.COOKIES['cookie_monster'] = 'declined'
         mock_model.objects.all.return_value.first.return_value.name = 'Cookie Monster'
 
         rendered_template = self.render_template(
@@ -55,7 +81,7 @@ class WagtailCookieConsentBannerTests(TestCase):
         self.assertEqual(rendered_template.strip(), render_to_string(self.banner_template, cxt).strip())
 
 
-@mock.patch('wagtailcookieconsent.templatetags.cookie_consent_tags.WagtailCookieConsent')
+@mock.patch('wagtailcookieconsent.templatetags.wagtail_cookie_consent_tags.WagtailCookieConsent')
 class WagtailCookieConsentGetCookieStatusTests(TestCase):
 
     def setUp(self):
@@ -72,13 +98,13 @@ class WagtailCookieConsentGetCookieStatusTests(TestCase):
         mock_model.objects.all.return_value.first.return_value.name = 'Cookie Monster'
         self.assertIsNone(wagtail_cookie_consent_status(self.context))
 
-    def test_wagtail_cookie_status_returns_string_accepted_when_it_was_accepted(self, mock_model):
+    def test_wagtail_cookie_status_returns_cookie_value_accepted(self, mock_model):
             self.request.COOKIES['yum_yum_cookie'] = 'accepted'
             self.context['request'] = self.request
             mock_model.objects.all.return_value.first.return_value.name = 'Yum Yum Cookie!!'
             self.assertEqual('accepted', wagtail_cookie_consent_status(self.context))
 
-    def test_wagtail_cookie_status_returns_string_declined_when_it_was_declined(self, mock_model):
+    def test_wagtail_cookie_status_returns_cookie_value_declined(self, mock_model):
             self.request.COOKIES['cookie_monster'] = 'declined'
             self.context['request'] = self.request
             mock_model.objects.all.return_value.first.return_value.name = 'Cookie Monster'

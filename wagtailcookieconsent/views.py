@@ -3,10 +3,10 @@ from django.views.generic import RedirectView
 from .forms import WagtailCookieConsentForm
 
 
-class CookieMixin(object):
+class CookieMixin:
     """
     Credit: https://gist.github.com/bmispelon/7700152
-    
+
     A CBV mixin that adds an `add_cookie` method on the view, allowing the user
     to set cookies on the response without having direct access to the response
     object itself.
@@ -55,7 +55,7 @@ class WagtailCookieConsentSubmitView(CookieMixin, RedirectView):
         cookie_name = request.POST.get('cookie_name', None)
         cookie_action = request.POST.get('cookie_action', None)
         if cookie_name and cookie_action:
-            self.add_cookie(cookie_name, cookie_action, max_age=3600)
+            self.add_cookie(cookie_name, cookie_action, max_age=3600, secure=True)
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, *args, **kwargs):
