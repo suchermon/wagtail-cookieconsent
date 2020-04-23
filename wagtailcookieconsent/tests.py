@@ -51,34 +51,25 @@ class WagtailCookieConsentBannerTests(TestCase):
         return Template(template).render(context)
 
     def test_wagtail_cookie_consent_banner_with_no_cookie_set_should_show_banner(self, mock_model):
-        mock_model.objects.all.return_value.first.return_value.name = 'Cookie Monster'
+        mock_model.objects.all.return_value.first.return_value.name = 'Cookie Yum'
 
         rendered_template = self.render_template(
             '{% wagtail_cookie_consent_banner %}', self.context
         ).strip()
 
-        cxt = self.context
-        cxt['cookie_name'] = underscore_me('Cookie Monster')
-        assert_template = render_to_string(self.banner_template, cxt).strip()
-
         self.assertTemplateUsed(template_name=self.banner_template)
-        self.assertEqual(rendered_template, assert_template)
+        self.assertIn('cookieConsentBanner', rendered_template)
 
-    def test_wagtail_cookie_consent_banner_should_not_insert_html_after_accepted(self, mock_model):
-        self.request.COOKIES['me_have_cookie'] = 'accepted'
-        mock_model.objects.all.return_value.first.return_value.name = 'Me Have Cookie'
+    def test_wagtail_cookie_consent_banner_should_not_insert_html_when_it_has_a_value(self, mock_model):
+        self.request.COOKIES['cookie_is_yummy'] = 'accepted'
+        mock_model.objects.all.return_value.first.return_value.name = 'Cookie Is Yummy!'
 
         rendered_template = self.render_template(
             '{% wagtail_cookie_consent_banner %}', self.context
         ).strip()
 
-        cxt = self.context
-        cxt['cookie_name'] = underscore_me('Me Have Cookie')
-        cxt['consent_exists'] = 'accepted'
-        assert_template = render_to_string(self.banner_template, cxt).strip()
-
         self.assertTemplateUsed(template_name=self.banner_template)
-        self.assertEqual(rendered_template.strip(), render_to_string(self.banner_template, cxt).strip())
+        self.assertNotIn('cookieConsentBanner', rendered_template)
 
 
 @mock.patch('wagtailcookieconsent.templatetags.wagtail_cookie_consent_tags.WagtailCookieConsent')
