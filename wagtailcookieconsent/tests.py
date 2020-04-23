@@ -25,6 +25,10 @@ class WagtailCookieMixinTests(TestCase):
         self.view.setup(self.request)
         self.view.dispatch(self.request)
 
+    def test_add_cookies_method_should_return_a_list_of_cookies_containing_new_cookie(self):
+        self.view.add_cookie('hello', 'world', max_age=3600)
+        self.assertIn((('hello', 'world'), {'max_age': 3600}), self.view.get_cookies())
+
     def test_form_post_method_get_cookies_should_return_posted_cookie_info(self):
         self.assertEqual(self.view.get_cookies(), [(('cookie_monster', 'nonomnom'), {'max_age': 3600})])
 
@@ -84,13 +88,19 @@ class WagtailCookieConsentGetCookieStatusTests(TestCase):
         test_str = 'Cookie Monster Is Hungry!!!'
         self.assertEqual('cookie_monster_is_hungry', underscore_me(test_str))
 
-    def test_wagtail_cookie_status_returns_None_when_no_cookie_detected(self, mock_model):
+    def test_wagtail_cookie_status_returns_False_when_no_cookie_detected(self, mock_model):
         self.context['request'] = self.request
         mock_model.objects.all.return_value.first.return_value.name = 'Cookie Monster'
         self.assertIsNone(wagtail_cookie_consent_status(self.context))
 
-    def test_wagtail_cookie_status_returns_a_cookie_value(self, mock_model):
+    def test_wagtail_cookie_status_returns_cookie_value_accepted(self, mock_model):
             self.request.COOKIES['yum_yum_cookie'] = 'accepted'
             self.context['request'] = self.request
             mock_model.objects.all.return_value.first.return_value.name = 'Yum Yum Cookie!!'
             self.assertEqual('accepted', wagtail_cookie_consent_status(self.context))
+
+    def test_wagtail_cookie_status_returns_cookie_value_declined(self, mock_model):
+            self.request.COOKIES['cookie_monster'] = 'declined'
+            self.context['request'] = self.request
+            mock_model.objects.all.return_value.first.return_value.name = 'Cookie Monster'
+            self.assertEqual('declined', wagtail_cookie_consent_status(self.context))

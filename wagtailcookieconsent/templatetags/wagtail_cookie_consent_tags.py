@@ -20,7 +20,7 @@ def wagtail_cookie_consent_banner(context):
     Arguments:
         context {obj} -- context
         cookie_name {str} -- Name of the cookie defined in the admin/db and converted into lower case underscore string
-        consent_exists {str} -- Returns value the value of the cookie or None
+        consent_exists {str} -- Returns the value of the cookie or None
     '''
     request = context['request']
     # FIXME: Should check for the site's settings just like using {% get_settings %}
@@ -42,7 +42,7 @@ def wagtail_cookie_consent_status(context):
 
     {% wagtail_cookie_consent_status  %}
 
-    returns 'accepted' | 'declined' | False (if not set at all)
+    returns 'accepted' | 'declined' | None (if not set at all)
     '''
     # FIXME: Should check for the site's settings just like using {% get_settings %}
     cookie_name = WagtailCookieConsent.objects.all().first().name
