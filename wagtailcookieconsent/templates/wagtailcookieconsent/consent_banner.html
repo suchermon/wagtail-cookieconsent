@@ -1,6 +1,6 @@
 {% load i18n wagtailcore_tags static %}
 
-{% if not consent_exists  %}
+{% if not no_settings and not consent_exists  %}
   {% with settings.wagtailcookieconsent.WagtailCookieConsent as consent %}
 
     {% if consent %}

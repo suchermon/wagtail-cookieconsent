@@ -1,6 +1,8 @@
+import datetime
 from django.views.generic import RedirectView
 
 from .forms import WagtailCookieConsentForm
+from .models import WagtailCookieConsent
 
 
 class CookieMixin:
@@ -24,6 +26,34 @@ class CookieMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._cookies = []
+
+    def days_to_milliseconds(self, days=30):
+        """
+
+        Convert number of days into milliseconds. Default is 30 days.
+
+        Keyword Arguments:
+            days {number} -- [description] (default: {30})
+
+        Returns:
+            number -- in milliseconds
+        """
+        return days * 24 * 60 * 60
+
+    def calculate_expires(self, days=30):
+        """
+        Calculate datetime.datetime object in UTC to be used as `expires`
+
+        [description]
+
+        Keyword Arguments:
+            days {number} -- [description] (default: {30})
+
+        Returns:
+            String -- UTC datetime object
+        """
+
+        return datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(days=days), "%a, %d-%b-%Y %H:%M:%S GMT")
 
     def get_cookies(self):
         """
@@ -54,8 +84,18 @@ class WagtailCookieConsentSubmitView(CookieMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         cookie_name = request.POST.get('cookie_name', None)
         cookie_action = request.POST.get('cookie_action', None)
+
         if cookie_name and cookie_action:
-            self.add_cookie(cookie_name, cookie_action, max_age=3600, secure=True)
+            try:
+                cookie_settings = WagtailCookieConsent.for_site(request.site)
+            except WagtailCookieConsent.DoesNotExist:
+                pass
+
+            if cookie_settings is not None and cookie_settings.expiration:
+                MAX_AGE = self.days_to_milliseconds(cookie_settings.expiration)
+                EXPIRES = self.calculate_expires(cookie_settings.expiration)
+
+                self.add_cookie(cookie_name, cookie_action, max_age=MAX_AGE, expires=EXPIRES, secure=True,)
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, *args, **kwargs):

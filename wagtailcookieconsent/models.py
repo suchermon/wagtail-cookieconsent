@@ -20,6 +20,11 @@ class WagtailCookieConsent(BaseSetting):
     description = RichTextField(
         help_text=_('Enter a detailed description of what EXACTLY are we tracking using this cookie and used by whom (For example: Google analytics). This information will be shown via a `What we are tracking` link be listed at the bottom of the acceptance banner for the end-user if they choose to read more. ')
     )
+    expiration = models.PositiveIntegerField(
+        verbose_name=_('Cookie Expiration in Days'),
+        default=30,
+        help_text=_('Enter the number of days before the consent is expired. This will ')
+    )
 
     panels = [
         HelpPanel(
@@ -27,6 +32,7 @@ class WagtailCookieConsent(BaseSetting):
             content='This is a simple way to notify users that we use analytics. If the user does not click the accept button, no tracking scripts will be included on the templates. No GA, GTM, none.'
         ),
         FieldPanel('name'),
+        FieldPanel('expiration'),
         MultiFieldPanel([
             FieldPanel('banner_text', classname='full'),
             FieldPanel('description', classname='full'),
