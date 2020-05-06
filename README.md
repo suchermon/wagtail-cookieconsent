@@ -77,8 +77,14 @@ This tag will returns `accepted | declined | None` so you can conditionally incl
 
 After installation in your local environment:
 
-`python manage.py test wagtailcookieconsent --keepdb`
+`python manage.py test wagtailcookieconsent --keepdb` (in your own test environment)
 
 ### Contribution
 
 Fork and do whatever you want. I don't have a strong opinion just as long as you don't break it.
+
+#### Changelog
+
+* 5/6/20
+    * Added `expiration` field in settings to be able to configure when the cookie would expire as well as better `max_age` and `expires` calculations. 
+    * Fixed the epic bug that crashes the entire thing when there are no settings detected (DOH!)
