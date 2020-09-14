@@ -87,7 +87,7 @@ class WagtailCookieConsentSubmitView(CookieMixin, RedirectView):
 
         if cookie_name and cookie_action:
             try:
-                cookie_settings = WagtailCookieConsent.for_site(request.site)
+                cookie_settings = WagtailCookieConsent.for_request(request)
             except WagtailCookieConsent.DoesNotExist:
                 pass
 
