@@ -85,6 +85,8 @@ Fork and do whatever you want. I don't have a strong opinion just as long as you
 
 #### Changelog
 
+* 9/14/20
+    * Added a check for wagtail < 2.10 for `for_site()` because in 2.10+ `for_site()` only needs the `request` vs older version needs `request.site`
 * 5/6/20
     * Added `expiration` field in settings to be able to configure when the cookie would expire as well as better `max_age` and `expires` calculations. 
     * Fixed the epic bug that crashes the entire thing when there are no settings detected (DOH!)
