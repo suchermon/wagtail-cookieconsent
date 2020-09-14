@@ -30,7 +30,7 @@ def wagtail_cookie_consent_banner(context):
         if WAGTAIL_VERSION < '2.10':
             cookie_settings = WagtailCookieConsent.for_site(request.site)
         else:
-            cookie_settings = WagtailCookieConsent.for_site(request)
+            cookie_settings = WagtailCookieConsent.for_request(request)
     except WagtailCookieConsent.DoesNotExist:
         cookie_settings = None
 
@@ -62,7 +62,10 @@ def wagtail_cookie_consent_status(context):
     request = context['request']
 
     try:
-        cookie_settings = WagtailCookieConsent.for_site(request)
+        if WAGTAIL_VERSION < '2.10':
+            cookie_settings = WagtailCookieConsent.for_site(request.site)
+        else:
+            cookie_settings = WagtailCookieConsent.for_request(request)
     except WagtailCookieConsent.DoesNotExist:
         cookie_settings = None
 
