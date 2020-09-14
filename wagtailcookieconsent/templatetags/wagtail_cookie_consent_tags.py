@@ -1,6 +1,8 @@
 from django import template
 from django.contrib import messages
 
+from wagtail.core import __version__ as WAGTAIL_VERSION
+
 from ..models import WagtailCookieConsent
 from ..utils import underscore_string
 
@@ -24,7 +26,11 @@ def wagtail_cookie_consent_banner(context):
 
     try:
         # Can't access the context['settings'] to get the site settings
-        cookie_settings = WagtailCookieConsent.for_site(request.site)
+
+        if WAGTAIL_VERSION < '2.10':
+            cookie_settings = WagtailCookieConsent.for_site(request.site)
+        else:
+            cookie_settings = WagtailCookieConsent.for_site(request)
     except WagtailCookieConsent.DoesNotExist:
         cookie_settings = None
 
@@ -56,7 +62,7 @@ def wagtail_cookie_consent_status(context):
     request = context['request']
 
     try:
-        cookie_settings = WagtailCookieConsent.for_site(request.site)
+        cookie_settings = WagtailCookieConsent.for_site(request)
     except WagtailCookieConsent.DoesNotExist:
         cookie_settings = None
 
