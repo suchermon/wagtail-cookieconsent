@@ -16,6 +16,7 @@ def get_requirements_tests():
 
 
 setup(
+    name='wagtail-cookieconsent',
     include_package_data=True,
     packages=find_packages('.'),
     package_data={'wagtailcookieconsent': [
