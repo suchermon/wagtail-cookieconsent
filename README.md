@@ -6,7 +6,7 @@ A very simple Cookie Consent to prompt a visitor to either accept or decline tra
 
 ## Requirements and dependencies
 
-* Wagtail (2.8+)
+* Wagtail (2.11+)
 * Django 3.0+
 
 ### Install / Uninstall
@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     ```
     {% load wagtailsettings_tags wagtail_cookie_consent_tags %}
 
-    {% get_settings %}
+    {% get_settings %} // If wagtail settings were not loaded already
     
-    {% if wagtail_cookie_consent_status == 'accepted' %}
+    {% wagtail_cookie_consent_status as cookie_consent %}
+    {% if cookie_consent == 'accepted' %}
     ... # loads tracking JS codes
     {% endif %}
 
@@ -85,6 +86,8 @@ Fork and do whatever you want. I don't have a strong opinion just as long as you
 
 #### Changelog
 
+* 12/8/20
+    * Version bump and added required wagtail version in `install_requires`
 * 9/14/20
     * Added a check for wagtail < 2.10 for `for_site()` because in 2.10+ `for_site()` only needs the `request` vs older version needs `request.site`
 * 5/6/20
