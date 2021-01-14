@@ -71,5 +71,7 @@ def wagtail_cookie_consent_status(context):
 
     if cookie_settings and cookie_settings.name:
         cookie = underscore_string(cookie_settings.name)
+        return request.COOKIES.get(cookie, None)
 
-    return request.COOKIES.get(cookie, None)
+    else:
+        return
