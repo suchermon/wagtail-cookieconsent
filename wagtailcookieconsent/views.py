@@ -95,7 +95,13 @@ class WagtailCookieConsentSubmitView(CookieMixin, RedirectView):
                 MAX_AGE = self.days_to_milliseconds(cookie_settings.expiration)
                 EXPIRES = self.calculate_expires(cookie_settings.expiration)
 
-                self.add_cookie(cookie_name, cookie_action, max_age=MAX_AGE, expires=EXPIRES, secure=True,)
+                self.add_cookie(
+                    cookie_name,
+                    cookie_action,
+                    max_age=MAX_AGE,
+                    expires=EXPIRES,
+                    secure=True
+                )
         return super().post(request, *args, **kwargs)
 
     def get_redirect_url(self, *args, **kwargs):

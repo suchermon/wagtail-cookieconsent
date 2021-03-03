@@ -45,8 +45,7 @@
       max-width: 66.666%;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
-      -ms-flex-align: center;
-          align-items: center;
+      flex-direction: column;
       padding: 1.5rem;
     }
   }

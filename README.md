@@ -9,7 +9,7 @@ A very simple Cookie Consent to prompt a visitor to either accept or decline tra
 * Wagtail (2.11+)
 * Django 3.0+
 
-### Install / Uninstall
+### Installation
 
 `pip install -e 'git+https://github.com/suchermon/wagtail-cookieconsent.git@master#egg=wagtail-cookieconsent'`
 
@@ -18,9 +18,7 @@ OR `pipenv`
 `pipenv install -e git+https://github.com/suchermon/wagtail-cookieconsent.git@master#egg=wagtail-cookieconsent`
 
 
-Uninstall: `pip uninstall wagtail-cookieconsent` or `pipenv uninstall wagtail-cookieconsent`
-
-## Installation
+## Install app to Django
 
 1. Install the app
 
@@ -32,7 +30,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-2. Add `re_path(r'^cookies/', include('wagtailcookieconsent.urls')),` to your `urls.py`
+2. Add `path('cookies/', include('wagtailcookieconsent.urls')),` to your urls
 
 3. Run `python manage.py migrate`
 
@@ -42,7 +40,7 @@ INSTALLED_APPS = [
     {% load wagtailsettings_tags wagtail_cookie_consent_tags %}
 
     {% get_settings %} // If wagtail settings were not loaded already
-    
+
     {% wagtail_cookie_consent_status as cookie_consent %}
     {% if cookie_consent == 'accepted' %}
     ... # loads tracking JS codes
@@ -91,5 +89,5 @@ Fork and do whatever you want. I don't have a strong opinion just as long as you
 * 9/14/20
     * Added a check for wagtail < 2.10 for `for_site()` because in 2.10+ `for_site()` only needs the `request` vs older version needs `request.site`
 * 5/6/20
-    * Added `expiration` field in settings to be able to configure when the cookie would expire as well as better `max_age` and `expires` calculations. 
+    * Added `expiration` field in settings to be able to configure when the cookie would expire as well as better `max_age` and `expires` calculations.
     * Fixed the epic bug that crashes the entire thing when there are no settings detected (DOH!)
