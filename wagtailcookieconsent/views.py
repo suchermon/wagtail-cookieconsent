@@ -1,5 +1,6 @@
 import datetime
 from django.views.generic import FormView
+from django.http import HttpResponseRedirect
 
 from .forms import WagtailCookieConsentForm
 from .models import WagtailCookieConsent
@@ -79,8 +80,11 @@ class CookieMixin:
 
 
 class WagtailCookieConsentSubmitView(CookieMixin, FormView):
-    template_name = 'wagtailcookieconsent/forms/cookie_submit_form.html'
+    template_name = 'wagtailcookieconsent/forms/cookie_submit_forms.html'
     form_class = WagtailCookieConsentForm
+
+    def form_invalid(self, form):
+        return HttpResponseRedirect(self.request.POST.get('next_url', '/'))
 
     def form_valid(self, form):
         cookie_name = form.cleaned_data.get('cookie_name', None)
@@ -88,7 +92,7 @@ class WagtailCookieConsentSubmitView(CookieMixin, FormView):
 
         if cookie_name and cookie_action:
             try:
-                cookie_settings = WagtailCookieConsent.for_request(request)
+                cookie_settings = WagtailCookieConsent.for_request(self.request)
             except WagtailCookieConsent.DoesNotExist:
                 pass
 

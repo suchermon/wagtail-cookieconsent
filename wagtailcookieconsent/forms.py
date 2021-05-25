@@ -7,7 +7,7 @@ class WagtailCookieConsentForm(forms.Form):
     cookie_action = forms.CharField(widget=forms.HiddenInput())
     next_url = forms.CharField(widget=forms.HiddenInput())
 
-    def clean_cookie_action(self)
+    def clean_cookie_action(self):
         action = self.cleaned_data['cookie_action']
         if action not in ['accepted', 'declined']:
             raise ValidationError('Invalid action')

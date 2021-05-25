@@ -25,8 +25,6 @@ def wagtail_cookie_consent_banner(context):
     request = context['request']
 
     try:
-        # Can't access the context['settings'] to get the site settings
-
         if WAGTAIL_VERSION < '2.10':
             cookie_settings = WagtailCookieConsent.for_site(request.site)
         else:
@@ -41,9 +39,6 @@ def wagtail_cookie_consent_banner(context):
             'consent_exists': request.COOKIES.get(cookie_name, None),
         })
     else:
-        if request.user.is_authenticated and request.user.is_superadmin:
-            messages.warning(request, "WagtalCookieConsent doesn't have any settings.")
-
         context['no_settings'] = True
 
     return context
