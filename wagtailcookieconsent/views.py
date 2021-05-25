@@ -1,5 +1,6 @@
 import datetime
-from django.views.generic import RedirectView
+from django.views.generic import FormView
+from django.http import HttpResponseRedirect
 
 from .forms import WagtailCookieConsentForm
 from .models import WagtailCookieConsent
@@ -78,19 +79,20 @@ class CookieMixin:
         return response
 
 
-class WagtailCookieConsentSubmitView(CookieMixin, RedirectView):
+class WagtailCookieConsentSubmitView(CookieMixin, FormView):
+    template_name = 'wagtailcookieconsent/forms/cookie_submit_forms.html'
     form_class = WagtailCookieConsentForm
 
-    def post(self, request, *args, **kwargs):
-        cookie_name = request.POST.get('cookie_name', None)
-        cookie_action = request.POST.get('cookie_action', None)
+    def form_invalid(self, form):
+        return HttpResponseRedirect(self.request.POST.get('next_url', '/'))
 
-        if cookie_action and cookie_action not in ['accepted', 'declined']:
-            return
+    def form_valid(self, form):
+        cookie_name = form.cleaned_data.get('cookie_name', None)
+        cookie_action = form.cleaned_data.get('cookie_action', None)
 
         if cookie_name and cookie_action:
             try:
-                cookie_settings = WagtailCookieConsent.for_request(request)
+                cookie_settings = WagtailCookieConsent.for_request(self.request)
             except WagtailCookieConsent.DoesNotExist:
                 pass
 
@@ -105,9 +107,9 @@ class WagtailCookieConsentSubmitView(CookieMixin, RedirectView):
                     expires=EXPIRES,
                     secure=True
                 )
-        return super().post(request, *args, **kwargs)
+        return super().form_valid(form)
 
-    def get_redirect_url(self, *args, **kwargs):
+    def get_success_url(self):
         next_url = self.request.POST.get('next_url', None)
 
         if next_url:
