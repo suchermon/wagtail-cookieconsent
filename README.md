@@ -84,6 +84,8 @@ Fork and do whatever you want. I don't have a strong opinion just as long as you
 
 #### Changelog
 
+* 5/24/21
+    * Replaced `RedirectView` with `FormView` for full validations. Hackers are jerks.
 * 12/8/20
     * Version bump and added required wagtail version in `install_requires`
 * 9/14/20
