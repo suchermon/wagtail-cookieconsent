@@ -85,7 +85,7 @@ class WagtailCookieConsentSubmitView(CookieMixin, RedirectView):
         cookie_name = request.POST.get('cookie_name', None)
         cookie_action = request.POST.get('cookie_action', None)
 
-        if cookie_action not in ['accepted', 'declined']:
+        if cookie_action and cookie_action not in ['accepted', 'declined']:
             return
 
         if cookie_name and cookie_action:
