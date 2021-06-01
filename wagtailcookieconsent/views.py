@@ -68,7 +68,7 @@ class CookieMixin:
         """
         self._cookies.append((args, kwargs))
 
-    def dispatch(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         """
         Get the response object from the parent class and sets the cookies on
         it accordingly.
@@ -82,6 +82,11 @@ class CookieMixin:
 class WagtailCookieConsentSubmitView(CookieMixin, FormView):
     template_name = 'wagtailcookieconsent/forms/cookie_submit_forms.html'
     form_class = WagtailCookieConsentForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
 
     def form_invalid(self, form):
         return HttpResponseRedirect(self.request.POST.get('next_url', '/'))

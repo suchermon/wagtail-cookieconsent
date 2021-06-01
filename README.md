@@ -91,3 +91,5 @@ Fork and do whatever you want. I don't have a strong opinion just as long as you
 * 5/6/20
     * Added `expiration` field in settings to be able to configure when the cookie would expire as well as better `max_age` and `expires` calculations.
     * Fixed the epic bug that crashes the entire thing when there are no settings detected (DOH!)
+* 5/31/20
+    * Triple checking the cookie name and raise a form error (then into nothingness). The reason is there were multiple attempts that someone tried to XSS and the constant errors bombarded us with bunch of emails. 
