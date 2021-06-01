@@ -20,7 +20,7 @@ class WagtailCookieConsentForm(forms.Form):
         try:
             cookie_settings = WagtailCookieConsent.for_request(self.request)
         except WagtailCookieConsent.DoesNotExist:
-            cookie_settings = None
+            raise ValidationError('Invalid cookie name')
 
         if cookie_settings:
             if cookie != underscore_string(cookie_settings.name):
