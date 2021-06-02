@@ -1,7 +1,8 @@
+import re
+
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import WagtailCookieConsent
 from .utils import underscore_string
 
 
@@ -17,14 +18,10 @@ class WagtailCookieConsentForm(forms.Form):
     def clean_cookie_name(self):
         cookie = self.cleaned_data['cookie_name']
 
-        try:
-            cookie_settings = WagtailCookieConsent.for_request(self.request)
-        except WagtailCookieConsent.DoesNotExist:
+        # Checks for random injection in the cookie name
+        regex = re.compile('[=@!#$%^&*()<>?/\|}{~:]')
+        if regex.search(cookie.strip()) is not None:
             raise ValidationError('Invalid cookie name')
-
-        if cookie_settings:
-            if cookie != underscore_string(cookie_settings.name):
-                raise ValidationError('Invalid cookie name')
         return cookie
 
     def clean_cookie_action(self):
