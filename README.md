@@ -93,5 +93,7 @@ Fork and do whatever you want. I don't have a strong opinion just as long as you
     * Fixed the epic bug that crashes the entire thing when there are no settings detected (DOH!)
 * 5/24/21
     * Replaced `RedirectView` with `FormView` for full validations. Hackers are jerks.
-* 5/31/20
+* 5/31/21
     * Triple checking the cookie name and raise a form error (then into nothingness). The reason is there were multiple attempts that someone tried to XSS and the constant errors bombarded us with bunch of emails. 
+* 7/6/21
+    * Security Patch for form injections
