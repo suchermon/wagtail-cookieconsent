@@ -1,6 +1,9 @@
 import datetime
-from django.views.generic import FormView
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import SuccessURLAllowedHostsMixin
 from django.http import HttpResponseRedirect
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.generic import FormView
 
 from .forms import WagtailCookieConsentForm
 from .models import WagtailCookieConsent
@@ -86,7 +89,7 @@ class WagtailCookieConsentSubmitView(CookieMixin, FormView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update({'request': self.request})
-        return kwargs
+        return super().form_valid(form)
 
     def form_invalid(self, form):
         return HttpResponseRedirect(self.request.POST.get('next_url', '/'))
@@ -115,9 +118,16 @@ class WagtailCookieConsentSubmitView(CookieMixin, FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        next_url = self.request.POST.get('next_url', None)
+        return self.get_redirect_url() or super().get_success_url()
 
-        if next_url:
-            return '%s' % (next_url)
-        else:
-            return '/'
+    def get_redirect_url(self):
+        redirect_to = self.request.POST.get(
+            self.redirect_field_name,
+            self.request.GET.get(self.redirect_field_name, '')
+        )
+        url_is_safe = url_has_allowed_host_and_scheme(
+            url=redirect_to,
+            allowed_hosts=self.get_success_url_allowed_hosts(),
+            require_https=self.request.is_secure(),
+        )
+        return redirect_to if url_is_safe else ''
