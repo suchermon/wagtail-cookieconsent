@@ -82,7 +82,7 @@ class CookieMixin:
         return response
 
 
-class WagtailCookieConsentSubmitView(CookieMixin, FormView):
+class WagtailCookieConsentSubmitView(CookieMixin, SuccessURLAllowedHostsMixin, FormView):
     template_name = 'wagtailcookieconsent/forms/cookie_submit_forms.html'
     form_class = WagtailCookieConsentForm
 
