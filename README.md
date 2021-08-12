@@ -1,6 +1,8 @@
 # Wagtail Cookie Consent 
 
 
+## There are some serious security issue with this approach. I am archiving this until I have time to redo the entire thing. PLEASE DO NOT USE!!
+
 A very simple Cookie Consent to prompt a visitor to either accept or decline tracking. Silly enough, the only way to know that they accepted or declined is to set a cookie. Once they have accepted or declined, you can use a template tag to include the tracking scripts.
 
 
